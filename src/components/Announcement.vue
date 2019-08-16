@@ -4,7 +4,7 @@
       <v-col>
         <v-card dark max-width="800" class="mx-auto">
           <v-card-text class="white--text" pa-0>
-            <div class="overline mb-0">{{this.date}}</div>
+            <div class="overline mb-0">{{timestamp}}</div>
             <v-list >
               <v-list-item>
                 <v-list-item-title>{{ this.data.announcement }}</v-list-item-title>
@@ -20,16 +20,16 @@
   </v-layout>
 </template>
 <script>
-import VueMoment from "vue-moment"
+import moment from "moment"
 
 const fb = require('../firebaseConfig')
 export default {
   name: "Announcement",
   props: ["data"],
-  data() {
-      date: moment().format("dddd, MMMM Do YYYY")
-  },
-  created() {
+  computed: {
+      timestamp: function() {
+          return moment(this.data.time).calendar()
+      }
   },
   methods: {
       deleteAnnouncement() {

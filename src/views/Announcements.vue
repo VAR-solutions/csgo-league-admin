@@ -51,8 +51,10 @@ export default {
       addBtnText: "Add Announcement"
     }
   },
+
   created() {
     fb.announcementsCollection.onSnapshot(res => {
+      this.announcements = []
       res.forEach(doc => {
         let announcement = doc.data();
         announcement['id'] = doc.id;

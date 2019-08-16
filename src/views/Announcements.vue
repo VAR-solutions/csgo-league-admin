@@ -53,7 +53,7 @@ export default {
   },
 
   created() {
-    fb.announcementsCollection.onSnapshot(res => {
+    fb.announcementsCollection.orderBy('time', 'desc').onSnapshot(res => {
       this.announcements = []
       res.forEach(doc => {
         let announcement = doc.data();

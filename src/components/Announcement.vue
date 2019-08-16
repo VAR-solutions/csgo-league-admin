@@ -7,10 +7,11 @@
             <div class="overline mb-0">{{timestamp}}</div>
             <v-list >
               <v-list-item>
-                <v-list-item-title>{{ this.data.announcement }}</v-list-item-title>
-                <v-list-item-subtitle class="text-right">
+                <div class="fontover">{{ this.data.announcement }}</div>
+                <v-spacer></v-spacer>
+                <div class="text-right">
                   <v-icon @click="deleteAnnouncement">mdi-delete</v-icon>
-                </v-list-item-subtitle>
+                </div>
               </v-list-item>
             </v-list>
           </v-card-text>
@@ -38,3 +39,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.fontover{
+        font-family: 'Overlock', cursive;
+        font-size: 1.4em;
+      }
+</style>

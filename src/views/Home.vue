@@ -1,60 +1,21 @@
 <template>
-  <v-container fluid>
-    <v-row>
-      <v-col cols="12">
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-card
-            class="ma-4 pa-6"
-            outlined
-            tile
-            :to="{ name: 'Players'}"
-          >
-            Players
-          </v-card>
-          <v-card
-            class="ma-3 pa-6"
-            outlined
-            tile
-          >
-            Teams
-          </v-card>
-          <v-card
-            class="ma-3 pa-6"
-            outlined
-            tile
-          >
-            Auction
-          </v-card>
-          <v-card
-            class="ma-3 pa-6"
-            outlined
-            tile
-            :to="{ name: 'Announcements' }"
-          >
-            Announcements
-          </v-card>
-          <v-card
-            class="ma-3 pa-6"
-            outlined
-            tile
-          >
-            Fixtures
-          </v-card>
-          <v-card
-            class="ma-3 pa-6"
-            outlined
-            tile
-          >
-            Points Table
-          </v-card>
-        </v-row>
-      </v-col>
-    </v-row>
+  <v-container>
+    <v-layout text-center wrap>
+      <v-flex xs12>
+        <v-img
+          src="https://firebasestorage.googleapis.com/v0/b/csgo-auction.appspot.com/o/side-03.png?alt=media&token=91ce7293-e061-4a46-8929-d72bb6917499"
+          class="my-3"
+          contain
+          height="250"
+        ></v-img>
+      </v-flex>
+
+      <v-flex mb-4>
+        <h1 class="display-2 font-weight-bold mb-3">ARCADIA</h1>
+        <p class="subheading font-weight-regular">Gaming Club of IIIT Vadodara</p>
+      </v-flex>
+    </v-layout>
   </v-container>
-  
 </template>
 
 <script>

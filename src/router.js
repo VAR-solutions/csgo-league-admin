@@ -19,14 +19,18 @@ const router = new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        title: 'Login to ADMIN | CS:GO League - Arcadia'
+      }
     },
     {
       path: '/',
       name: 'Home',
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Home Page | CS:GO League - Arcadia | ADMIN'
       }
     },
     {
@@ -43,7 +47,8 @@ const router = new Router({
       name: "Announcements",
       component: Announcements,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Announcements | CS:GO League - Arcadia | ADMIN'
       }
     },
     {
@@ -51,7 +56,8 @@ const router = new Router({
       name: "Players",
       component: Players,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Players | CS:GO League - Arcadia | ADMIN'
       }
     },
     {
@@ -60,7 +66,8 @@ const router = new Router({
       component: Profile,
       props: true,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        title: 'Player Profile - :id | CS:GO League - Arcadia | ADMIN'
       }
     }
   ]
@@ -77,6 +84,25 @@ router.beforeEach((to, from, next) => {
   } else {
       next()
   }
+
+  // This goes through the matched routes from last to first, finding the closest route with a title.
+  // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
+  const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
+
+  // Find the nearest route element with meta tags.
+  const nearestWithMeta = to.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
+  const previousNearestWithMeta = from.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
+
+  // If a route with a title was found, set the document (page) title to that value.
+  if(nearestWithTitle) document.title = nearestWithTitle.meta.title;
+
+  // Remove any stale meta tags from the document using the key attribute we set below.
+  Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
+
+  // Skip rendering meta tags if there are none.
+  if(!nearestWithMeta) return next();
+
+  next();
 });
 
 export default router;

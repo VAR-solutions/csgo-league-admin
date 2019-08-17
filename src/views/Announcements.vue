@@ -37,7 +37,8 @@
 <script>
 import Announcement from '../components/Announcement';
 const fb = require('../firebaseConfig')
-
+import { mapState } from "vuex";
+import { currentUser } from '../firebaseConfig';
 export default {
   name: "Announcements",
   components: {
@@ -51,7 +52,9 @@ export default {
       addBtnText: "Add Announcement"
     }
   },
-
+  computed: {
+    ...mapState(["currentUser"])
+  },
   created() {
     fb.announcementsCollection.orderBy('time', 'desc').onSnapshot(res => {
       this.announcements = []
@@ -60,7 +63,7 @@ export default {
         announcement['id'] = doc.id;
         this.announcements.push(announcement);
       })
-    })
+    });
   },
   methods: {
     addAnnouncement(){
@@ -74,7 +77,6 @@ export default {
     },
 
     publish() {
-console.log(this.message)
       if(this.message != ""){
         let announcement = {};
         announcement["announcement"] = this.message

@@ -11,7 +11,7 @@
       </v-flex>
 
       <v-flex mb-4>
-        <h1 class="display-2 font-weight-bold mb-3">ARCADIA</h1>
+        <h1 class="titlefont mb-3">ARCADIA</h1>
         <p class="subheading font-weight-regular">Gaming Club of IIIT Vadodara</p>
       </v-flex>
     </v-layout>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 // const fb = require('../firebaseConfig')
 // export default {
 //   name: "Home",
@@ -34,9 +34,13 @@ export default {
         
       }
     },
+    computed: {
+    ...mapState(['userProfile', 'currentUser'])
+  }
   }
 </script>
 
 <style scoped>
+
 
 </style>

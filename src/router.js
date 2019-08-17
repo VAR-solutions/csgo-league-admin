@@ -6,7 +6,12 @@ import Login from "./components/Login.vue";
 import firebase from 'firebase/app';
 import Players from './views/Players';
 import Profile from './views/Profile';
+import Auction from './views/Auction';
+import Teams from './views/Teams';
+import Fixtures from './views/Fixtures';
+import PointsTable from './views/PointsTable'
 import 'firebase/auth'
+
 Vue.use(Router);
 
 const router = new Router({
@@ -67,25 +72,50 @@ const router = new Router({
       props: true,
       meta: {
         requiresAuth: true,
-        title: 'Player Profile - :id | CS:GO League - Arcadia | ADMIN'
+        title: 'Player\'s Profile | CS:GO League - Arcadia | ADMIN'
+      }
+    },
+    {
+      path: "/auction",
+      name: "Auction",
+      component: Auction,
+      meta: {
+        requiresAuth: true,
+        title: 'Auction | CS:GO League - Arcadia | ADMIN'
+      }
+    },
+    {
+      path: "/teams",
+      name: "Teams",
+      component: Teams,
+      meta: {
+        requiresAuth: true,
+        title: 'Teams | CS:GO League - Arcadia | ADMIN'
+      }
+    },
+    {
+      path: "/fixtures",
+      name: "Fixtures",
+      component: Fixtures,
+      meta: {
+        requiresAuth: true,
+        title: 'Fixtures | CS:GO League - Arcadia | ADMIN'
+      }
+    },
+    {
+      path: "/points-table",
+      name: "PointsTable",
+      component: PointsTable,
+      meta: {
+        requiresAuth: true,
+        title: 'Points Table | CS:GO League - Arcadia | ADMIN'
       }
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-  const currentUser = firebase.auth().currentUser
-
-  if (requiresAuth && !currentUser) {
-      next('/login')
-  } else if (!requiresAuth && currentUser) {
-      next('/')
-  } else {
-      next()
-  }
-
-  // This goes through the matched routes from last to first, finding the closest route with a title.
+    // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
   const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
 
@@ -100,9 +130,18 @@ router.beforeEach((to, from, next) => {
   Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
 
   // Skip rendering meta tags if there are none.
-  if(!nearestWithMeta) return next();
+  // if(!nearestWithMeta) return next();
+  next()
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
+  const currentUser = firebase.auth().currentUser
 
-  next();
+  if (requiresAuth && !currentUser) {
+      next('/login')
+  } else if (!requiresAuth && currentUser) {
+      next('/')
+  } else {
+      next()
+  }
 });
 
 export default router;

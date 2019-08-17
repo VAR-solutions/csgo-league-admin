@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "player",
   props: ["data"],
@@ -23,6 +24,9 @@ export default {
     return {
       
     };
+  },
+  computed: {
+    ...mapState(["currentUser"])
   }
 };
 </script>

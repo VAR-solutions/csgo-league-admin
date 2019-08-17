@@ -37,7 +37,6 @@
 <script>
 const fb = require('../firebaseConfig')
 import firebase from 'firebase'
-import { constants } from 'crypto';
 export default {
   data() {
     return {
@@ -60,10 +59,8 @@ export default {
     login() {
         const provider = new firebase.auth.GoogleAuthProvider();
         fb.auth.signInWithPopup(provider).then((result) => {
-            console.log(result)
             if(this.emails.indexOf(result.user.email) != -1){
                 this.found = true
-                console.log("login")
                 this.$store.commit('setCurrentUser', result.user)
                 this.$store.dispatch('fetchUserProfile')
                 this.$router.push('/')
@@ -72,7 +69,6 @@ export default {
                 this.found = false
                 firebase.auth().signOut().then(() => {
                     this.$store.dispatch('clearData')
-                    console.log("logout")
                 }).catch(err => {
                     console.log(err)
                 })

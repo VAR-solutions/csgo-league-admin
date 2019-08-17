@@ -115,7 +115,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    // This goes through the matched routes from last to first, finding the closest route with a title.
+  // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
   const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
 
@@ -124,7 +124,7 @@ router.beforeEach((to, from, next) => {
   const previousNearestWithMeta = from.matched.slice().reverse().find(r => r.meta && r.meta.metaTags);
 
   // If a route with a title was found, set the document (page) title to that value.
-  if(nearestWithTitle) document.title = nearestWithTitle.meta.title;
+  if (nearestWithTitle) document.title = nearestWithTitle.meta.title;
 
   // Remove any stale meta tags from the document using the key attribute we set below.
   Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
@@ -136,11 +136,11 @@ router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
 
   if (requiresAuth && !currentUser) {
-      next('/login')
+    next('/login')
   } else if (!requiresAuth && currentUser) {
-      next('/')
+    next('/')
   } else {
-      next()
+    next()
   }
 });
 

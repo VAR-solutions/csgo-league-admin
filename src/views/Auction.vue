@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    
     <v-layout text-center wrap>
       <v-row justify="center">
         <v-col>
@@ -26,7 +25,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 const fb = require("../firebaseConfig");
 export default {
   data: () => ({
@@ -50,7 +49,7 @@ export default {
         colr: "orange--text text--darken-2"
       }
     ],
-    playerstype: {},
+    playerstype: {}
   }),
   computed: {
     ...mapState(["currentUser"])
@@ -60,21 +59,21 @@ export default {
       return Math.floor(Math.random() * Math.floor(range));
     },
     startauction(type) {
-      let sz = this.playerstype[type.toLowerCase()].length
+      let sz = this.playerstype[type.toLowerCase()].length;
       let pos = this.getRandInt(sz);
-      let pid = this.playerstype[type.toLowerCase()][pos]
+      let pid = this.playerstype[type.toLowerCase()][pos];
       let routelink = "/players/" + pid;
       // console.log(routelink)
-      this.$router.push(routelink)
+      this.$router.push(routelink);
     }
   },
 
   created() {
     fb.auctionCollection.onSnapshot(snap => {
-      this.playerstype['gold'] = snap.docs[1].data().players
-      this.playerstype['silver'] = snap.docs[2].data().players
-      this.playerstype['bronze'] = snap.docs[0].data().players
-    })
+      this.playerstype["gold"] = snap.docs[1].data().players;
+      this.playerstype["silver"] = snap.docs[2].data().players;
+      this.playerstype["bronze"] = snap.docs[0].data().players;
+    });
   }
 };
 </script>

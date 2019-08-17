@@ -21,9 +21,7 @@ export default {
   name: "player",
   props: ["data"],
   data() {
-    return {
-      
-    };
+    return {};
   },
   computed: {
     ...mapState(["currentUser"])

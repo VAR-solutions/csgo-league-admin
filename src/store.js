@@ -4,29 +4,29 @@ const fb = require('./firebaseConfig')
 Vue.use(Vuex);
 
 fb.auth.onAuthStateChanged(user => {
-  if(user) {
+  if (user) {
     store.commit('setCurrentUser', user)
     store.dispatch('fetchUserProfile')
     store.commit('setUserProfile', user)
   }
 })
 
-export const store =  new Vuex.Store({
+export const store = new Vuex.Store({
   state: {
     currentUser: null,
     userProfile: {},
   },
   mutations: {
-    setCurrentUser(state, val){
+    setCurrentUser(state, val) {
       state.currentUser = val
     },
-    setUserProfile(state, val){
+    setUserProfile(state, val) {
       state.userProfile = val
     }
   },
   actions: {
-    fetchUserProfile({commit, state}) {
-      fb.adminsCollection.where('email', '==', state.currentUser.email ).get().then(res => {
+    fetchUserProfile({ commit, state }) {
+      fb.adminsCollection.where('email', '==', state.currentUser.email).get().then(res => {
         res.forEach(doc => {
           commit('setUserProfile', state.currentUser)
         })

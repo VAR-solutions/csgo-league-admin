@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 // const fb = require('../firebaseConfig')
 // export default {
 //   name: "Home",
@@ -29,18 +29,14 @@ import { mapState } from 'vuex'
 //   }
 // }
 export default {
-    data () {
-      return {
-        
-      }
-    },
-    computed: {
-    ...mapState(['userProfile', 'currentUser'])
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState(["userProfile", "currentUser"])
   }
-  }
+};
 </script>
 
 <style scoped>
-
-
 </style>

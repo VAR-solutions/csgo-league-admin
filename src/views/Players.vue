@@ -1,5 +1,5 @@
 <template>
-      <v-container grid-list-sm align-content-space-between>
+  <v-container grid-list-sm align-content-space-between>
     <v-layout wrap>
       <Player v-for="(ex,k) in this.players" :key="k" :data="ex" />
     </v-layout>
@@ -8,8 +8,7 @@
 
 <script>
 import Player from "../components/Player";
-const fb = require('../firebaseConfig');
-
+const fb = require("../firebaseConfig");
 
 export default {
   name: "Players",
@@ -17,7 +16,8 @@ export default {
     Player
   },
   created() {
-    fb.playersCollection.orderBy("name")
+    fb.playersCollection
+      .orderBy("name")
       .get()
       .then(res => {
         res.forEach(doc => {
@@ -30,5 +30,5 @@ export default {
       players: []
     };
   }
-}
+};
 </script>

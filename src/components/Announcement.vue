@@ -5,7 +5,7 @@
         <v-card dark max-width="800" class="mx-auto">
           <v-card-text class="white--text" pa-0>
             <div class="overline mb-0">{{timestamp}}</div>
-            <v-list >
+            <v-list>
               <v-list-item>
                 <div class="fontover">{{ this.data.announcement }}</div>
                 <v-spacer></v-spacer>
@@ -21,33 +21,32 @@
   </v-layout>
 </template>
 <script>
-import moment from "moment"
+import moment from "moment";
 
-const fb = require('../firebaseConfig')
+const fb = require("../firebaseConfig");
 export default {
   name: "Announcement",
   props: ["data"],
   computed: {
-      timestamp: function() {
-        if(this.data.time < (Date.now() - 1200000)){
-          return moment(this.data.time).calendar()
-        }
-        else{
-          return moment(this.data.time).fromNow()
-        }
+    timestamp: function() {
+      if (this.data.time < Date.now() - 1200000) {
+        return moment(this.data.time).calendar();
+      } else {
+        return moment(this.data.time).fromNow();
       }
+    }
   },
   methods: {
-      deleteAnnouncement() {
-          fb.announcementsCollection.doc(this.data.id).delete();   
-      }
+    deleteAnnouncement() {
+      fb.announcementsCollection.doc(this.data.id).delete();
+    }
   }
 };
 </script>
 
 <style scoped>
-.fontover{
-        font-family: 'Overlock', cursive;
-        font-size: 1.4em;
-      }
+.fontover {
+  font-family: "Overlock", cursive;
+  font-size: 1.4em;
+}
 </style>

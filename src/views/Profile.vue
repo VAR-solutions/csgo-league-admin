@@ -19,24 +19,13 @@
             src="https://firebasestorage.googleapis.com/v0/b/csgo-auction.appspot.com/o/side-03.png?alt=media&token=91ce7293-e061-4a46-8929-d72bb6917499"
           />
         </v-col>
-        <v-col
-          cols="12"
-          md="7"
-          xs="12"
-          justify="center"
-          align="center"
-          class="mt-5"
-        >
+        <v-col cols="12" md="7" xs="12" justify="center" align="center" class="mt-5">
           <h1 class="fin">{{ data.tag }}</h1>
           <v-card-text>
             <p class="lexend" style="font-size: 25px">{{ data.name }}</p>
             <p class="size lexend">Primary Weapon: {{ data.primary_weapon }}</p>
-            <p class="size lexend">
-              Secondary Weapon: {{ data.secondary_weapon }}
-            </p>
-            <p class="size lexend" v-if="data.category">
-              Category: {{ data.category }}
-            </p>
+            <p class="size lexend">Secondary Weapon: {{ data.secondary_weapon }}</p>
+            <p class="size lexend" v-if="data.category">Category: {{ data.category }}</p>
             <p class="size lexend" v-if="data.team">Team: {{ data.team }}</p>
           </v-card-text>
           <v-card-actions>
@@ -54,12 +43,7 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-select
-              v-model="k"
-              :items="items"
-              dark
-              label="Category"
-            ></v-select>
+            <v-select v-model="k" :items="items" dark label="Category"></v-select>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -77,12 +61,7 @@
         <v-card-text>
           <v-container>
             <v-text-field label="Credit" v-model="credit"></v-text-field>
-            <v-select
-              v-model="team"
-              :items="team_names"
-              dark
-              label="Team"
-            ></v-select>
+            <v-select v-model="team" :items="team_names" dark label="Team"></v-select>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -98,7 +77,7 @@
 const fb = require("../firebaseConfig");
 import VueElementLoading from "vue-element-loading";
 import { functions } from "firebase";
-
+import axios from "axios";
 export default {
   name: "profile",
   props: ["id"],
@@ -215,6 +194,7 @@ export default {
         announcement["time"] = Date.now();
         var d = [];
         var dd = [];
+        var url = "https://us-central1-csgo-auction.cloudfunctions.net/sendMail?dest="+ this.data.email +"&team="+ this.team +"&credit="+ this.credit;
         this.showCustomizeLoader = true;
         var id = this.$route.params.id;
         var tid;
@@ -257,6 +237,10 @@ export default {
           team: this.team
         });
         fb.announcementsCollection.add(announcement);
+
+        axios.get(url).then((res)=>{
+          console.log(res)
+        })
       } else {
         this.dialog2 = false;
       }

@@ -8,9 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "cors": "^2.8.5",
     "firebase": "^6.3.5",
     "moment": "^2.24.0",
+    "nodemailer": "^6.3.0",
     "vue": "^2.6.10",
     "vue-element-loading": "^1.1.5",
     "vue-router": "^3.0.3",

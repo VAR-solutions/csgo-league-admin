@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout text-center wrap>
+    <v-layout text-center fill-height wrap>
       <v-flex xs12>
         <v-img
           src="https://firebasestorage.googleapis.com/v0/b/csgo-auction.appspot.com/o/side-03.png?alt=media&token=91ce7293-e061-4a46-8929-d72bb6917499"
@@ -11,7 +11,7 @@
       </v-flex>
 
       <v-flex mb-4>
-        <h1 class="titlefont mb-3">ARCADIA</h1>
+        <h1 class="fin titlefont mb-3">ARCADIA</h1>
         <p class="subheading font-weight-regular">Gaming Club of IIIT Vadodara</p>
       </v-flex>
     </v-layout>
@@ -38,5 +38,6 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+
 </style>

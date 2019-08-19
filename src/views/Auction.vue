@@ -2,10 +2,10 @@
   <v-container fluid class="pa-2 ma-2">
     <v-row no-gutters class="pa-0 ma-0">
       <v-col lg="3" md="3" sm="12" xs="12">
-        <v-layout text-center wrap>
+        <v-layout text-center wrap fill-height>
           <v-row text-center>
             <v-col v-for="card in cards" :key="card.title">
-              <v-card text-center class="ma-4 pa-4" @click="startauction(card.title)">
+              <v-card text-center class="mx-4 my-1 px-4 py-1" @click="startauction(card.title)">
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title
@@ -17,6 +17,19 @@
                 <v-card-text class="playleft fin">PLayers Left : {{ card.pleft }}</v-card-text>
               </v-card>
             </v-col>
+            <!-- <v-col v-if="allsold">
+              <v-card text-center class="ma-4 pa-4" @click="startauction(card.title)">
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      class="text-center catfont mb-1"
+                      :class="unsoldcard.colr"
+                    >{{ unsoldcard.title }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-card-text class="playleft fin">PLayers Left : {{ unsoldcard.pleft }}</v-card-text>
+              </v-card>
+            </v-col>-->
           </v-row>
         </v-layout>
       </v-col>
@@ -65,11 +78,16 @@ export default {
       {
         title: "BRONZE",
         colr: "orange--text text--darken-2"
+      },
+      {
+        title: "UNSOLD",
+        colr: "white--text"
       }
     ],
     playerstype: {},
     teamstats: [],
     dataload: true,
+    allsold: false,
     headers: [
       {
         text: "Team Name",
@@ -113,6 +131,8 @@ export default {
       this.cards[1]["pleft"] = snap.docs[2].data().players.length;
       this.playerstype["bronze"] = snap.docs[0].data().players;
       this.cards[2]["pleft"] = snap.docs[0].data().players.length;
+      this.playerstype["unsold"] = snap.docs[3].data().players;
+      this.cards[3]["pleft"] = snap.docs[3].data().players.length;
     });
 
     fb.teamsCollection.onSnapshot(snap => {
@@ -137,7 +157,7 @@ export default {
   font-size: 2.5em;
 }
 
-.playleft{
+.playleft {
   text-transform: uppercase;
   letter-spacing: 0.1rem;
   font-weight: 300;

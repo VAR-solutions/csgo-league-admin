@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <p> This is Points Table Page</p>
+        <h1 class="fin" align="center">COMING SOON...</h1>
     </v-container>
 </template>
 

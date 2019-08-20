@@ -5,16 +5,23 @@
         <v-layout text-center wrap fill-height>
           <v-row text-center>
             <v-col v-for="card in cards" :key="card.title">
-              <v-card text-center class="mx-4 my-1 px-4 py-1" @click="startauction(card.title)">
+              <v-card
+                text-center
+                class="mx-4 my-1 px-4 py-1"
+                @click="startauction(card.title)"
+              >
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title
                       class="text-center catfont mb-1"
                       :class="card.colr"
-                    >{{ card.title }}</v-list-item-title>
+                      >{{ card.title }}</v-list-item-title
+                    >
                   </v-list-item-content>
                 </v-list-item>
-                <v-card-text class="playleft fin">PLayers Left : {{ card.pleft }}</v-card-text>
+                <v-card-text class="playleft fin"
+                  >PLayers Left : {{ card.pleft }}</v-card-text
+                >
               </v-card>
             </v-col>
             <!-- <v-col v-if="allsold">
@@ -49,7 +56,9 @@
                 class="elevation-1"
               >
                 <template v-slot:item.credits="{ item }">
-                  <v-chip :color="getColor(item.credits)" light>{{ item.credits }}</v-chip>
+                  <v-chip :color="getColor(item.credits)" light>{{
+                    item.credits
+                  }}</v-chip>
                 </template>
               </v-data-table>
             </v-col>

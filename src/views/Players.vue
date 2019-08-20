@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-sm align-content-space-between>
     <v-layout wrap>
-      <Player v-for="(ex,k) in this.players" :key="k" :data="ex" />
+      <Player v-for="(ex, k) in this.players" :key="k" :data="ex" />
     </v-layout>
   </v-container>
 </template>

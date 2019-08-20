@@ -31,7 +31,8 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn @click="dialog = true">Assign Category</v-btn>
-            <v-btn @click="dialog2 = true">Add to Team</v-btn>
+            <v-btn @click="dialog2 = true">Sold to</v-btn>
+            <v-btn @click="unsold">Unsold</v-btn>
           </v-card-actions>
         </v-col>
       </v-row>
@@ -194,7 +195,13 @@ export default {
         announcement["time"] = Date.now();
         var d = [];
         var dd = [];
-        var url = "https://us-central1-csgo-auction.cloudfunctions.net/sendMail?dest="+ this.data.email +"&team="+ this.team +"&credit="+ this.credit;
+        var url =
+          "https://us-central1-csgo-auction.cloudfunctions.net/sendMail?dest=" +
+          this.data.email +
+          "&team=" +
+          this.team +
+          "&credit=" +
+          this.credit;
         this.showCustomizeLoader = true;
         var id = this.$route.params.id;
         var tid;
@@ -238,11 +245,41 @@ export default {
         });
         fb.announcementsCollection.add(announcement);
 
-        axios.get(url).then((res)=>{
-          console.log(res)
-        })
+        axios.get(url).then(res => {
+          console.log(res);
+        });
       } else {
         this.dialog2 = false;
+      }
+    },
+    unsold() {
+      if (this.data.category) {
+        var id = this.$route.params.id;
+        var d = [];
+        var dd = [];
+        var us = [];
+        fb.auctionCollection
+          .doc(this.data.category.toLowerCase())
+          .get()
+          .then(res => {
+            d = res.data().players;
+            dd = d.filter(function(player) {
+              return player != parseInt(id);
+            });
+            fb.auctionCollection.doc(this.data.category.toLowerCase()).set({
+              players: dd
+            });
+            fb.auctionCollection
+              .doc("unsold")
+              .get()
+              .then(r => {
+                us = r.data().players;
+                us.push(parseInt(id));
+                fb.auctionCollection.doc("unsold").update({
+                  players: us
+                });
+              });
+          });
       }
     }
   }

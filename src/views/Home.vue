@@ -12,7 +12,9 @@
 
       <v-flex mb-4>
         <h1 class="fin titlefont mb-3">ARCADIA</h1>
-        <p class="subheading font-weight-regular">Gaming Club of IIIT Vadodara</p>
+        <p class="subheading font-weight-regular">
+          Gaming Club of IIIT Vadodara
+        </p>
       </v-flex>
     </v-layout>
   </v-container>
@@ -38,6 +40,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

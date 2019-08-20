@@ -19,13 +19,24 @@
             src="https://firebasestorage.googleapis.com/v0/b/csgo-auction.appspot.com/o/side-03.png?alt=media&token=91ce7293-e061-4a46-8929-d72bb6917499"
           />
         </v-col>
-        <v-col cols="12" md="7" xs="12" justify="center" align="center" class="mt-5">
+        <v-col
+          cols="12"
+          md="7"
+          xs="12"
+          justify="center"
+          align="center"
+          class="mt-5"
+        >
           <h1 class="fin">{{ data.tag }}</h1>
           <v-card-text>
             <p class="lexend" style="font-size: 25px">{{ data.name }}</p>
             <p class="size lexend">Primary Weapon: {{ data.primary_weapon }}</p>
-            <p class="size lexend">Secondary Weapon: {{ data.secondary_weapon }}</p>
-            <p class="size lexend" v-if="data.category">Category: {{ data.category }}</p>
+            <p class="size lexend">
+              Secondary Weapon: {{ data.secondary_weapon }}
+            </p>
+            <p class="size lexend" v-if="data.category">
+              Category: {{ data.category }}
+            </p>
             <p class="size lexend" v-if="data.team">Team: {{ data.team }}</p>
           </v-card-text>
           <v-card-actions>
@@ -44,7 +55,12 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-select v-model="k" :items="items" dark label="Category"></v-select>
+            <v-select
+              v-model="k"
+              :items="items"
+              dark
+              label="Category"
+            ></v-select>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -62,7 +78,12 @@
         <v-card-text>
           <v-container>
             <v-text-field label="Credit" v-model="credit"></v-text-field>
-            <v-select v-model="team" :items="team_names" dark label="Team"></v-select>
+            <v-select
+              v-model="team"
+              :items="team_names"
+              dark
+              label="Team"
+            ></v-select>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -110,15 +131,21 @@ export default {
       .then(res => {
         this.data = res.data();
       });
-    fb.teamsCollection.get().then(res => {
-      res.forEach(doc => {
-        // console.log(doc.data())
-        this.teams.push(doc.data());
+    fb.teamsCollection
+      .get()
+      .then(res => {
+        res
+          .forEach(doc => {
+            // console.log(doc.data())
+            this.teams.push(doc.data());
+          })
+        this.teams.forEach(element => {
+          this.team_names.push(element.name);
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-      this.teams.forEach(element => {
-        this.team_names.push(element.name);
-      });
-    });
   },
   methods: {
     saveCategory() {
@@ -137,16 +164,29 @@ export default {
             // console.log(res.data().players)
             predata = res.data().players;
             predata.push(parseInt(this.$route.params.id));
-            fb.auctionCollection.doc(this.k.toLowerCase()).set({
-              players: predata
-            });
+            fb.auctionCollection
+              .doc(this.k.toLowerCase())
+              .set({
+                players: predata
+              })
+              .catch(err => {
+                console.log(err);
+              });
             this.data.category = this.k;
-            fb.playersCollection.doc(this.$route.params.id).update({
-              category: this.k
-            });
+            fb.playersCollection
+              .doc(this.$route.params.id)
+              .update({
+                category: this.k
+              })
+              .catch(err => {
+                console.log(err);
+              });
             this.showCustomizeLoader = false;
             this.dialog = false;
             this.data.category = this.k;
+          })
+          .catch(err => {
+            console.log(err);
           });
       } else {
         fb.auctionCollection
@@ -157,9 +197,14 @@ export default {
             dd = d.filter(function(player) {
               return player != parseInt(id);
             });
-            fb.auctionCollection.doc(this.data.category.toLowerCase()).set({
-              players: dd
-            });
+            fb.auctionCollection
+              .doc(this.data.category.toLowerCase())
+              .set({
+                players: dd
+              })
+              .catch(err => {
+                console.log(err);
+              });
             fb.auctionCollection
               .doc(this.k.toLowerCase())
               .get()
@@ -172,10 +217,21 @@ export default {
                 this.showCustomizeLoader = false;
                 this.dialog = false;
                 this.data.category = this.k;
+              })
+              .catch(err => {
+                console.log(err);
               });
-            fb.playersCollection.doc(id).update({
-              category: this.k
-            });
+            fb.playersCollection
+              .doc(id)
+              .update({
+                category: this.k
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          })
+          .catch(err => {
+            console.log(err);
           });
       }
     },
@@ -219,9 +275,14 @@ export default {
             dd = d.filter(function(player) {
               return player != parseInt(id);
             });
-            fb.auctionCollection.doc(this.data.category.toLowerCase()).set({
-              players: dd
-            });
+            fb.auctionCollection
+              .doc(this.data.category.toLowerCase())
+              .set({
+                players: dd
+              })
+              .catch(err => {
+                console.log(err);
+              });
             this.showCustomizeLoader = false;
             this.dialog2 = false;
             this.$router.push({ name: "Auction" });
@@ -239,11 +300,21 @@ export default {
             fb.teamsCollection.doc(tid).update({
               player_ids: ids
             });
+          })
+          .catch(err => {
+            console.log(err);
           });
-        fb.playersCollection.doc(id).update({
-          team: this.team
+        fb.playersCollection
+          .doc(id)
+          .update({
+            team: this.team
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        fb.announcementsCollection.add(announcement).catch(err => {
+          console.log(err);
         });
-        fb.announcementsCollection.add(announcement);
 
         axios.get(url).then(res => {
           console.log(res);
@@ -263,22 +334,42 @@ export default {
           .get()
           .then(res => {
             d = res.data().players;
-            dd = d.filter(function(player) {
-              return player != parseInt(id);
-            });
-            fb.auctionCollection.doc(this.data.category.toLowerCase()).set({
-              players: dd
-            });
+            dd = d
+              .filter(function(player) {
+                return player != parseInt(id);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            fb.auctionCollection
+              .doc(this.data.category.toLowerCase())
+              .set({
+                players: dd
+              })
+              .catch(err => {
+                console.log(err);
+              });
             fb.auctionCollection
               .doc("unsold")
               .get()
               .then(r => {
                 us = r.data().players;
                 us.push(parseInt(id));
-                fb.auctionCollection.doc("unsold").update({
-                  players: us
-                });
+                fb.auctionCollection
+                  .doc("unsold")
+                  .update({
+                    players: us
+                  })
+                  .then(re => {
+                    this.$router.push({ name: "Auction" });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
               });
+          })
+          .catch(err => {
+            console.log(err);
           });
       }
     }

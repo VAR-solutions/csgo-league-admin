@@ -14,29 +14,17 @@
     <v-card pa-2 width="90%" class="mx-auto">
       <v-row>
         <v-col cols="12" md="5" xs="12" justify="center" align="center">
-          <img
-            width="50%"
-            src="https://firebasestorage.googleapis.com/v0/b/csgo-auction.appspot.com/o/side-03.png?alt=media&token=91ce7293-e061-4a46-8929-d72bb6917499"
-          />
+          <v-avatar size="240">
+          <img :src="data.photo" @error="imgUrlAlt" />
+        </v-avatar>
         </v-col>
-        <v-col
-          cols="12"
-          md="7"
-          xs="12"
-          justify="center"
-          align="center"
-          class="mt-5"
-        >
+        <v-col cols="12" md="7" xs="12" justify="center" align="center" class="mt-5">
           <h1 class="fin">{{ data.tag }}</h1>
           <v-card-text>
             <p class="lexend" style="font-size: 25px">{{ data.name }}</p>
             <p class="size lexend">Primary Weapon: {{ data.primary_weapon }}</p>
-            <p class="size lexend">
-              Secondary Weapon: {{ data.secondary_weapon }}
-            </p>
-            <p class="size lexend" v-if="data.category">
-              Category: {{ data.category }}
-            </p>
+            <p class="size lexend">Secondary Weapon: {{ data.secondary_weapon }}</p>
+            <p class="size lexend" v-if="data.category">Category: {{ data.category }}</p>
             <p class="size lexend" v-if="data.team">Team: {{ data.team }}</p>
           </v-card-text>
           <v-card-actions>
@@ -55,12 +43,7 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-select
-              v-model="k"
-              :items="items"
-              dark
-              label="Category"
-            ></v-select>
+            <v-select v-model="k" :items="items" dark label="Category"></v-select>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -78,12 +61,7 @@
         <v-card-text>
           <v-container>
             <v-text-field label="Credit" v-model="credit"></v-text-field>
-            <v-select
-              v-model="team"
-              :items="team_names"
-              dark
-              label="Team"
-            ></v-select>
+            <v-select v-model="team" :items="team_names" dark label="Team"></v-select>
           </v-container>
         </v-card-text>
         <v-card-actions>
@@ -134,11 +112,10 @@ export default {
     fb.teamsCollection
       .get()
       .then(res => {
-        res
-          .forEach(doc => {
-            // console.log(doc.data())
-            this.teams.push(doc.data());
-          })
+        res.forEach(doc => {
+          // console.log(doc.data())
+          this.teams.push(doc.data());
+        });
         this.teams.forEach(element => {
           this.team_names.push(element.name);
         });
@@ -251,6 +228,7 @@ export default {
         announcement["time"] = Date.now();
         var d = [];
         var dd = [];
+        var us = [];
         var url =
           "https://us-central1-csgo-auction.cloudfunctions.net/sendMail?dest=" +
           this.data.email +
@@ -267,6 +245,7 @@ export default {
           }
         });
         var ids = [];
+        var credits = 0;
         fb.auctionCollection
           .doc(this.data.category.toLowerCase())
           .get()
@@ -283,6 +262,22 @@ export default {
               .catch(err => {
                 console.log(err);
               });
+            fb.auctionCollection
+              .doc("unsold")
+              .get()
+              .then(r => {
+                us = r.data().players;
+                us = us.filter(function(player) {
+                  return player != parseInt(id);
+                });
+                fb.auctionCollection.doc("unsold").update({
+                  players: us
+                });
+              })
+              .catch(err => {
+                console.log(err);
+              });
+
             this.showCustomizeLoader = false;
             this.dialog2 = false;
             this.$router.push({ name: "Auction" });
@@ -297,8 +292,11 @@ export default {
           .then(res => {
             ids = res.data().player_ids;
             ids.push(id);
+            credits = res.data().credits;
+            credits -= this.credit;
             fb.teamsCollection.doc(tid).update({
-              player_ids: ids
+              player_ids: ids,
+              credits: credits
             });
           })
           .catch(err => {
@@ -324,54 +322,79 @@ export default {
       }
     },
     unsold() {
+      this.showCustomizeLoader = true;
+      var id = this.$route.params.id;
+      var d = [];
+      var dd = [];
+      var us = [];
       if (this.data.category) {
-        var id = this.$route.params.id;
-        var d = [];
-        var dd = [];
-        var us = [];
-        fb.auctionCollection
-          .doc(this.data.category.toLowerCase())
-          .get()
-          .then(res => {
-            d = res.data().players;
-            dd = d
-              .filter(function(player) {
+        if (!this.data.unsold) {
+          fb.auctionCollection
+            .doc(this.data.category.toLowerCase())
+            .get()
+            .then(res => {
+              d = res.data().players;
+              dd = d.filter(function(player) {
                 return player != parseInt(id);
-              })
-              .catch(err => {
-                console.log(err);
               });
-            fb.auctionCollection
-              .doc(this.data.category.toLowerCase())
-              .set({
-                players: dd
-              })
-              .catch(err => {
-                console.log(err);
+
+              fb.auctionCollection
+                .doc(this.data.category.toLowerCase())
+                .set({
+                  players: dd
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+              fb.auctionCollection
+                .doc("unsold")
+                .get()
+                .then(r => {
+                  us = r.data().players;
+                  us.push(parseInt(id));
+                  fb.auctionCollection
+                    .doc("unsold")
+                    .update({
+                      players: us
+                    })
+                    .then(re => {
+                      this.$router.push({ name: "Auction" });
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+                });
+              fb.playersCollection.doc(id).update({
+                unsold: true
               });
-            fb.auctionCollection
-              .doc("unsold")
-              .get()
-              .then(r => {
-                us = r.data().players;
-                us.push(parseInt(id));
-                fb.auctionCollection
-                  .doc("unsold")
-                  .update({
-                    players: us
-                  })
-                  .then(re => {
-                    this.$router.push({ name: "Auction" });
-                  })
-                  .catch(err => {
-                    console.log(err);
-                  });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          fb.auctionCollection
+            .doc("unsold")
+            .get()
+            .then(res => {
+              d = res.data().players;
+              dd = d.filter(function(player) {
+                return player != parseInt(id);
               });
-          })
-          .catch(err => {
-            console.log(err);
-          });
+              fb.auctionCollection
+                .doc("unsold")
+                .update({
+                  players: dd
+                })
+                .then(res => {
+                  this.$router.push({ name: "Auction" });
+                });
+            });
+        }
       }
+    },
+    imgUrlAlt(event) {
+      event.target.src =
+        "https://firebasestorage.googleapis.com/v0/b/csgo-auction.appspot.com/o/side-03.png?alt=media&token=91ce7293-e061-4a46-8929-d72bb6917499";
     }
   }
 };

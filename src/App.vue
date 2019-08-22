@@ -13,11 +13,12 @@
       <v-toolbar-items class="hidden-sm-and-down" color="#303030" exact>
         <v-btn text :to="{ name: 'Home' }" exact>Home</v-btn>
         <v-btn text :to="{ name: 'Players' }" exact>Players</v-btn>
-        <v-btn text :to="{ name: 'Teams' }" exact>Teams</v-btn>
+        <!-- <v-btn text :to="{ name: 'Teams' }" exact>Teams</v-btn> -->
         <v-btn text :to="{ name: 'Auction' }" exact>Auction</v-btn>
         <v-btn text :to="{ name: 'Announcements' }" exact>Announcements</v-btn>
         <v-btn text :to="{ name: 'Fixtures' }" exact>Fixtures</v-btn>
         <v-btn text :to="{ name: 'PointsTable' }" exact>Points Table</v-btn>
+        <v-btn text :to="{ name: 'Rules'}" crossorigin="anonymous">Rules</v-btn>
         <v-btn text exact v-if="currentUser" @click="logout">LOGOUT</v-btn>
       </v-toolbar-items>
     </v-app-bar>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
@@ -10,6 +11,7 @@ import Auction from "./views/Auction";
 import Teams from "./views/Teams";
 import Fixtures from "./views/Fixtures";
 import PointsTable from "./views/PointsTable";
+import Rules from "./views/Rules.vue";
 import "firebase/auth";
 
 Vue.use(Router);
@@ -109,6 +111,15 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         title: "Points Table | CS:GO League - Arcadia | ADMIN"
+      }
+    },
+    {
+      path: "/rules",
+      name: "Rules",
+      component: Rules,
+      meta: {
+        requiresAuth: true,
+        title: "Rules | CS:GO League - Arcadia | ADMIN"
       }
     }
   ]

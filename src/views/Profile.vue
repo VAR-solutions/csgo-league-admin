@@ -29,7 +29,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="dialog = true">Assign Category</v-btn>
+            <!-- <v-btn @click="dialog = true">Assign Category</v-btn> -->
             <v-btn @click="dialog2 = true">Sold to</v-btn>
             <v-btn @click="unsold">Unsold</v-btn>
           </v-card-actions>

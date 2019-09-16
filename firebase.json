@@ -10,7 +10,8 @@
     "source": "functions"
   },
   "hosting": {
-    "public": "public",
+    "public": "dist",
+    "site": "leagueadmin",
     "ignore": [
       "firebase.json",
       "**/.*",

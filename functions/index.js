@@ -30,7 +30,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
             to: dest,
             subject: 'Auction CS:GO League', // email subject
             html: `<p style="font-size: 16px;">Congratulations, have been bought by <b>${team}</b> for ${credit} credits.</p>
-            <footer>For any queries contact us:<br>Ravi Varshney<br><a href="tel:+91-7599322051">+91-7599322051</a></footer>` // email content in HTML
+            <footer>For any queries contact us:<br>Ravi Varshney<br><a href="tel:+91-7599322051">+91-7599322051</a><br>A Block-G17</footer>` // email content in HTML
         };
 
         // returning result

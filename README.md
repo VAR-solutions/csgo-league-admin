@@ -8,10 +8,12 @@ This is the Web application for the ADMIN for CS:GO League organized by ARCADIA 
 </table>
 
 ## Demo
+
 Click the link to see the working Demo :  https://leagueadmin.web.app/
 
 ## Snapshots
-The Sign-in is only for the admins. After sign-in only, other pages can be accessed. For reference see these snapshots.
+
+The Sign-in is only for the admins. Only after sign-in, other pages can be accessed. For reference, see the snapshots below-
 
 ### Landing Page
 
@@ -47,17 +49,17 @@ npm run serve
 ```
 
 
+## Developers
+
+- [Vishal Gaur](https://github.com/i-vishi)
+- [Ravi Varshney](https://github.com/ravivarshney01)
+- [Ananya Tewari](https://github.com/antew7)
+
+
 ## Built with 
 
 - [Vue.js](https://vuejs.org/) - An open-source model–view–viewmodel front end JavaScript framework for building user interfaces and single-page applications.
 - [Firebase](https://firebase.google.com/) - for NoSQL database and hosting the web application.
 - [Vuetify](https://vuetifyjs.com/) - Vue UI Library with beautifully handcrafted Material Components.
-
-## Developers
-
-- [Vishal Gaur](https://github.com/i-vishi)
-- [Ananya Tewari](https://github.com/antew7)
-- [Ravi Varshney](https://github.com/ravivarshney01)
-
 
 <p align="center"> Made with ❤️ by <a href="https://github.com/var-dev">VAR Solutions</a></p>

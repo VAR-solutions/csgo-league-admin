@@ -11,6 +11,8 @@ This is the Web application for the ADMIN for CS:GO League organized by ARCADIA 
 
 Click the link to see the working Demo :  https://leagueadmin.web.app/
 
+Click here to see the repo for user's site : https://github.com/VAR-solutions/csgo_league
+
 ## Snapshots
 
 The Sign-in is only for the admins. Only after sign-in, other pages can be accessed. For reference, see the snapshots below-
